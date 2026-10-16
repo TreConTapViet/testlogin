@@ -18,6 +18,7 @@ import {
   demoSignIn,
   demoSignOut,
   demoSignUp,
+  demoUpdateAccount,
   getDemoSession,
 } from '../services/mockAuth'
 import { AuthContext } from './contexts'
@@ -30,6 +31,7 @@ function fromFirebaseUser(fbUser, nicknameHint) {
     email: fbUser.email,
     nickname: fbUser.displayName || nicknameHint || fbUser.email?.split('@')[0] || 'bạn',
     photoURL: fbUser.photoURL,
+    avatar: null,
     provider: fbUser.providerData.some((info) => info.providerId === 'google.com') ? 'google' : 'password',
   }
 }
@@ -67,12 +69,16 @@ export function AuthProvider({ children }) {
       }
       setUser(fromFirebaseUser(fbUser, nicknameHint.current))
       setReady(true)
-      // Biệt danh chuẩn nằm trong Firestore (sau này người dùng có thể đổi trong hồ sơ)
+      // Biệt danh và avatar chuẩn nằm trong Firestore (người dùng tự đổi trong menu tài khoản)
       getDoc(doc(db, 'users', fbUser.uid))
         .then((snapshot) => {
-          const nickname = snapshot.exists() ? snapshot.data().nickname : null
-          if (active && nickname) {
-            setUser((current) => (current?.uid === fbUser.uid ? { ...current, nickname } : current))
+          const data = snapshot.exists() ? snapshot.data() : {}
+          if (active && (data.nickname || data.avatar)) {
+            setUser((current) =>
+              current?.uid === fbUser.uid
+                ? { ...current, nickname: data.nickname || current.nickname, avatar: data.avatar ?? null }
+                : current,
+            )
           }
         })
         .catch(() => {
@@ -174,9 +180,24 @@ export function AuthProvider({ children }) {
     [],
   )
 
+  // Đổi biệt danh / avatar của tài khoản đang đăng nhập (patch: { nickname?, avatar? })
+  const uid = user?.uid
+  const updateAccount = useCallback(
+    async (patch) => {
+      if (!uid) throw new Error('Chưa đăng nhập')
+      if (isDemo) {
+        setUser(demoUpdateAccount(patch))
+        return
+      }
+      await setDoc(doc(db, 'users', uid), patch, { merge: true })
+      setUser((current) => (current?.uid === uid ? { ...current, ...patch } : current))
+    },
+    [uid],
+  )
+
   const value = useMemo(
-    () => ({ user, ready, isDemo, signUp, signIn, signInWithGoogle, resetPassword, signOut }),
-    [user, ready, signUp, signIn, signInWithGoogle, resetPassword, signOut],
+    () => ({ user, ready, isDemo, signUp, signIn, signInWithGoogle, resetPassword, signOut, updateAccount }),
+    [user, ready, signUp, signIn, signInWithGoogle, resetPassword, signOut, updateAccount],
   )
 
   return <AuthContext value={value}>{children}</AuthContext>

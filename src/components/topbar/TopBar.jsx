@@ -6,7 +6,7 @@ import ThemeToggle from './ThemeToggle'
 import UserMenu from './UserMenu'
 import WeatherBar from './WeatherBar'
 
-export default function TopBar({ visible }) {
+export default function TopBar({ visible, onHome }) {
   const { user } = useAuth()
 
   return (
@@ -22,7 +22,7 @@ export default function TopBar({ visible }) {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
         >
           {/* Màn hình hẹp: ẩn logo để thanh thời tiết, nút giao diện và tài khoản vừa một hàng */}
-          <Logo className="pointer-events-auto hidden sm:flex" />
+          <Logo className="pointer-events-auto hidden sm:flex" onClick={onHome} />
           <div className="pointer-events-auto flex items-center gap-2 md:gap-2.5">
             <WeatherBar />
             <ThemeToggle />

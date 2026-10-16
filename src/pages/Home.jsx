@@ -5,12 +5,12 @@ import FloatingClothes from '../components/scene/FloatingClothes'
 import { useViewport } from '../hooks/useViewport'
 import { TOP_BAR_HEIGHT } from '../lib/scene'
 
-// Lối vào các phần sẽ làm ở bước sau (chưa xây dựng trong giai đoạn này)
+// Lối vào các phần; phần chưa có nhãn cta sẽ làm ở bước sau
 const FEATURES = [
-  { id: 'outfit', title: 'Phối đồ', description: 'Tự do thay trang phục cho ma-nơ-canh của bạn.', Icon: ShirtIcon },
+  { id: 'outfit', title: 'Phối đồ', description: 'Tự do thay trang phục cho ma-nơ-canh của bạn.', Icon: ShirtIcon, cta: 'Vào phòng thử' },
   { id: 'ai', title: 'Gợi ý từ AI', description: 'Kể hoàn cảnh: hẹn hò, đám cưới, đi làm…', Icon: SparkIcon },
   { id: 'history', title: 'Lịch sử phối đồ', description: 'Xem lại những bộ đồ bạn đã lưu.', Icon: ClockIcon },
-  { id: 'profile', title: 'Hồ sơ của tôi', description: 'Chiều cao, cân nặng và phong cách.', Icon: UserIcon },
+  { id: 'profile', title: 'Hồ sơ của tôi', description: 'Chiều cao, cân nặng và phong cách.', Icon: UserIcon, cta: 'Mở hồ sơ' },
 ]
 
 const EASE = [0.22, 1, 0.36, 1]
@@ -41,7 +41,7 @@ function FeatureCard({ feature, onSelect }) {
       <span className="mt-6 text-[15px] font-semibold">{feature.title}</span>
       <span className="mt-1.5 text-[13px] leading-snug text-muted">{feature.description}</span>
       <span className="mt-auto inline-flex items-center gap-1 pt-4 text-xs font-medium text-accent">
-        Sắp ra mắt
+        {feature.cta ?? 'Sắp ra mắt'}
         <ArrowRightIcon className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
       </span>
     </motion.button>
@@ -52,7 +52,7 @@ function FeatureCard({ feature, onSelect }) {
  * Màn hình chính sau khi đăng nhập.
  * Nhận user qua props (không đọc từ context) để khi đăng xuất, hiệu ứng thoát vẫn còn dữ liệu hiển thị.
  */
-export default function Home({ user }) {
+export default function Home({ user, onOpenProfile, onOpenOutfit }) {
   const stageRef = useRef(null)
   const { width, height } = useViewport()
   const [now] = useState(() => new Date())
@@ -119,7 +119,11 @@ export default function Home({ user }) {
               <FeatureCard
                 key={feature.id}
                 feature={feature}
-                onSelect={() => setToast({ id: Date.now(), text: `“${feature.title}” sẽ có ở bước tiếp theo, sắp ra mắt!` })}
+                onSelect={() => {
+                  if (feature.id === 'outfit') onOpenOutfit()
+                  else if (feature.id === 'profile') onOpenProfile()
+                  else setToast({ id: Date.now(), text: `“${feature.title}” sẽ có ở bước tiếp theo, sắp ra mắt!` })
+                }}
               />
             ))}
           </motion.div>

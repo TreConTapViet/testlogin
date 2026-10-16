@@ -1,0 +1,21 @@
+// Avatar cho tài khoản đăng ký bằng email: icon quần áo/phụ kiện trên nền màu nhạt
+export const AVATARS = [
+  { id: 'tshirt', bg: '#fbe3d8' },
+  { id: 'dress', bg: '#fbe1e4' },
+  { id: 'jacket', bg: '#dde3ee' },
+  { id: 'hoodie', bg: '#e1ecdc' },
+  { id: 'shirt', bg: '#e3ebf5' },
+  { id: 'skirt', bg: '#f8eccd' },
+  { id: 'sneaker', bg: '#f1ece4' },
+  { id: 'heel', bg: '#f6dde1' },
+  { id: 'hat', bg: '#f4ead5' },
+  { id: 'sunglasses', bg: '#e6e4ec' },
+  { id: 'handbag', bg: '#f3e2d4' },
+  { id: 'scarf', bg: '#efe2f2' },
+  { id: 'tie', bg: '#dde5f2' },
+  { id: 'watch', bg: '#f3ead6' },
+  { id: 'boot', bg: '#ece1d6' },
+  { id: 'tote', bg: '#f1ede4' },
+  { id: 'pants', bg: '#efe8dc' },
+  { id: 'shorts', bg: '#dfeaf3' },
+]

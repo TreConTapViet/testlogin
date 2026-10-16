@@ -1,28 +1,24 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useCallback, useRef, useState } from 'react'
-import { CITIES, DEFAULT_CITY_ID } from '../../data/cities'
+import { useCity } from '../../context/contexts'
+import { CITIES } from '../../data/cities'
 import { useDismiss } from '../../hooks/useDismiss'
 import { useWeather } from '../../hooks/useWeather'
 import { cn } from '../../lib/cn'
-import { readString, writeString } from '../../lib/storage'
 import { ChevronDownIcon, PinIcon } from '../icons'
 import WeatherIcon from './WeatherIcon'
 
-const CITY_KEY = 'weather:city'
-
 export default function WeatherBar() {
-  const [cityId, setCityId] = useState(() => readString(CITY_KEY) ?? DEFAULT_CITY_ID)
+  const { city, chooseCity: selectCity } = useCity()
   const [open, setOpen] = useState(false)
   const rootRef = useRef(null)
-  const city = CITIES.find((item) => item.id === cityId) ?? CITIES[0]
   const { data, error, loading, retry } = useWeather(city)
 
   const close = useCallback(() => setOpen(false), [])
   useDismiss(rootRef, open, close)
 
   const chooseCity = (id) => {
-    setCityId(id)
-    writeString(CITY_KEY, id)
+    selectCity(id)
     setOpen(false)
   }
 

@@ -31,9 +31,21 @@ function startSession(account) {
     email: account.email,
     nickname: account.nickname,
     photoURL: null,
+    avatar: account.avatar ?? null,
     provider: account.provider,
   }
   writeJSON(SESSION_KEY, session)
+  return session
+}
+
+// Đổi biệt danh / avatar: cập nhật cả phiên đăng nhập lẫn tài khoản đã lưu (để lần sau vẫn giữ)
+export function demoUpdateAccount(patch) {
+  const session = { ...getDemoSession(), ...patch }
+  writeJSON(SESSION_KEY, session)
+  const accounts = readAccounts()
+  if (Object.hasOwn(accounts, session.email)) {
+    writeJSON(ACCOUNTS_KEY, { ...accounts, [session.email]: { ...accounts[session.email], ...patch } })
+  }
   return session
 }
 

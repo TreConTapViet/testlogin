@@ -86,7 +86,8 @@ body {
   outline-offset: 2px;
 }
 
-input:focus-visible {
+input:focus-visible,
+textarea:focus-visible {
   outline: none;
 }
 
@@ -145,4 +146,39 @@ input:focus-visible {
 @utility thin-scroll {
   scrollbar-width: thin;
   scrollbar-color: var(--line) transparent;
+}
+
+/* ---- Đổi giao diện sáng/tối: giao diện mới lật từ phải sang trái (View Transitions) ---- */
+@keyframes theme-reveal {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+html[data-theme-fx]::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme-fx]::view-transition-new(root) {
+  animation: theme-reveal 1.15s cubic-bezier(0.65, 0, 0.35, 1) both;
+  mix-blend-mode: normal;
+}
+
+/* Lớp sao/ánh sáng hiện ngay, không mờ dần mặc định */
+::view-transition-group(theme-fx),
+::view-transition-old(theme-fx),
+::view-transition-new(theme-fx) {
+  animation: none;
+}
+
+/* Trong lúc đổi giao diện tắt mọi transition: chữ, nền, kính mờ đổi màu cùng một lúc, không khựng hay giật */
+html.theme-switching,
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
 }

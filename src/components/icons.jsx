@@ -131,6 +131,30 @@ export function LogoutIcon({ className }) {
   )
 }
 
+export function CloseIcon({ className }) {
+  return (
+    <Icon className={className}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </Icon>
+  )
+}
+
+export function SendIcon({ className }) {
+  return (
+    <Icon className={className}>
+      <path d="M4.5 12 3 4.5l18 7.5-18 7.5L4.5 12Zm0 0H12" />
+    </Icon>
+  )
+}
+
+export function RefreshIcon({ className }) {
+  return (
+    <Icon className={className}>
+      <path d="M19.5 12a7.5 7.5 0 1 1-2.2-5.3M19.5 4.5v3.8h-3.8" />
+    </Icon>
+  )
+}
+
 export function SunIcon({ className }) {
   return (
     <Icon className={className}>
