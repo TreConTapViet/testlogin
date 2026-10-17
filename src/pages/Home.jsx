@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { ArrowRightIcon, ClockIcon, ShirtIcon, SparkIcon, UserIcon } from '../components/icons'
-import FloatingClothes from '../components/scene/FloatingClothes'
+import { LazyClothes3D } from '../components/scene3d/loadScene3D'
 import { useViewport } from '../hooks/useViewport'
 import { TOP_BAR_HEIGHT } from '../lib/scene'
 
@@ -80,16 +80,18 @@ export default function Home({ user, onOpenProfile, onOpenOutfit }) {
       }}
       exit={{ opacity: 0, scale: 0.97, filter: 'blur(8px)', transition: { duration: 0.5 } }}
     >
-      <FloatingClothes
-        width={width}
-        height={height}
-        top={TOP_BAR_HEIGHT}
-        clearWidth={860}
-        origin={null}
-        constraintsRef={stageRef}
-        // Màn hình hẹp: quần áo nằm sau nội dung nên làm mờ đi cho dễ đọc
-        className="z-0 max-md:opacity-30"
-      />
+      <Suspense fallback={null}>
+        <LazyClothes3D
+          width={width}
+          height={height}
+          top={TOP_BAR_HEIGHT}
+          clearWidth={860}
+          origin={null}
+          constraintsRef={stageRef}
+          // Màn hình hẹp: quần áo nằm sau nội dung nên làm mờ đi cho dễ đọc
+          className="z-0 max-md:opacity-30"
+        />
+      </Suspense>
 
       {/* my-auto: căn giữa khi vừa màn hình; chỉ khi màn hình quá thấp (điện thoại) mới cuộn được */}
       <div

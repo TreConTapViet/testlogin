@@ -41,6 +41,8 @@ const SHAKE = buildShake(64)
 const REST = { x: 0, rotate: 0, scaleY: 1 }
 const CABINET = {
   closed: REST,
+  loading: REST,
+  appear: REST,
   stuffed: {
     x: SHAKE.x,
     rotate: SHAKE.rotate,
@@ -57,6 +59,8 @@ function doorVariants(direction, shakeFrames) {
   const ease = [0.65, 0, 0.35, 1]
   return {
     closed: { rotateY: 0 },
+    loading: { rotateY: 0 },
+    appear: { rotateY: 0 },
     stuffed: { rotateY: shakeFrames, transition: { duration: STUFFED_SECONDS, ease: 'linear' } },
     // Bật tung ra, đập lại, nảy nhẹ rồi đóng
     burst: {
@@ -286,21 +290,57 @@ function Flash({ width, height }) {
   )
 }
 
+// Vách bên + nóc tủ có chiều sâu thật (CSS 3D): chỉ lộ ra khi tủ xoay lúc xuất hiện / camera tiến lại gần
+const DEPTH = 72
+// Mép trước của vách sáng hơn, càng vào sâu càng tối
+const sideWood = (direction) =>
+  `repeating-linear-gradient(0deg, rgb(0 0 0 / 0.035) 0 1px, transparent 1px 7px), linear-gradient(${direction}, var(--wood), var(--wood-lo) 30%, var(--wood-deep))`
+
+function Carcass() {
+  return (
+    <>
+      <div
+        className="absolute inset-y-0 left-0 rounded-[10px]"
+        style={{ width: DEPTH, transformOrigin: 'left center', transform: 'rotateY(90deg)', background: sideWood('90deg') }}
+      />
+      <div
+        className="absolute inset-y-0 right-0 rounded-[10px]"
+        style={{ width: DEPTH, transformOrigin: 'right center', transform: 'rotateY(-90deg)', background: sideWood('270deg') }}
+      />
+      <div
+        className="absolute inset-x-0 top-0 rounded-[10px]"
+        style={{
+          height: DEPTH,
+          transformOrigin: 'center top',
+          transform: 'rotateX(-90deg)',
+          background: 'linear-gradient(180deg, var(--wood-lo), var(--wood-hi))',
+        }}
+      />
+    </>
+  )
+}
+
+// Các bước còn thấy quần áo nhồi trong tủ (trước khi nổ)
+const CRAMMED_PHASES = new Set(['loading', 'appear', 'stuffed'])
+
 /**
- * phase: 'stuffed' | 'burst' | 'settle' | 'open' | 'auth'
+ * phase: 'loading' | 'appear' | 'stuffed' | 'burst' | 'settle' | 'open' | 'auth'
  * animateIntro = false khi quay lại màn đăng nhập (ví dụ sau khi đăng xuất): tủ hiện sẵn ở trạng thái mở.
  */
 export default function Wardrobe({ phase, animateIntro, width, height, children }) {
   const initial = animateIntro ? 'closed' : false
+  const crammed = CRAMMED_PHASES.has(phase)
 
   return (
     <motion.div
       className="pointer-events-auto relative"
-      style={{ width, height, transformOrigin: '50% 100%' }}
+      style={{ width, height, transformOrigin: '50% 100%', transformStyle: 'preserve-3d' }}
       variants={CABINET}
       initial={initial}
       animate={phase}
     >
+      <Carcass />
+
       {/* Bóng đổ trên sàn */}
       <div className="pointer-events-none absolute -bottom-9 left-1/2 h-10 w-[118%] -translate-x-1/2 rounded-[50%] bg-black/20 blur-xl dark:bg-black/60" />
 
@@ -314,7 +354,7 @@ export default function Wardrobe({ phase, animateIntro, width, height, children 
       />
       <div className="wood-trim absolute -left-3 -right-3 -top-3 h-[22px] rounded-[10px] shadow-[0_6px_12px_-6px_rgba(0,0,0,0.45)]" />
 
-      <AnimatePresence>{phase === 'stuffed' && <TopPile key="pile" />}</AnimatePresence>
+      <AnimatePresence>{crammed && <TopPile key="pile" />}</AnimatePresence>
 
       {/* Lòng tủ: nơi hiện lời chào và form đăng nhập */}
       <div className="lining absolute overflow-hidden rounded-[12px]" style={{ inset: FRAME }}>
@@ -323,7 +363,7 @@ export default function Wardrobe({ phase, animateIntro, width, height, children 
           style={{ background: 'linear-gradient(#efe9df, #a39b90)', boxShadow: '0 2px 3px rgba(0,0,0,0.25)' }}
         />
         <Hangers />
-        <AnimatePresence>{phase === 'stuffed' && <Crammed key="crammed" />}</AnimatePresence>
+        <AnimatePresence>{crammed && <Crammed key="crammed" />}</AnimatePresence>
         <div className="thin-scroll absolute inset-0 z-10 flex flex-col overflow-y-auto px-6 pb-5 pt-14">{children}</div>
       </div>
 
@@ -333,7 +373,7 @@ export default function Wardrobe({ phase, animateIntro, width, height, children 
         <Door side="right" phase={phase} initial={initial} />
       </div>
 
-      <AnimatePresence>{phase === 'stuffed' && <Peeks key="peeks" />}</AnimatePresence>
+      <AnimatePresence>{crammed && <Peeks key="peeks" />}</AnimatePresence>
       <AnimatePresence>{phase === 'burst' && <Flash key="flash" width={width} height={height} />}</AnimatePresence>
     </motion.div>
   )

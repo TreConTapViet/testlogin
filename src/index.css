@@ -14,19 +14,27 @@
   --color-muted: var(--muted);
   --color-line: var(--line);
   --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-sage: var(--sage);
+  --color-surface: var(--surface);
 }
 
 :root {
-  --bg: #f5efe6;
-  --ink: #241d17;
-  --muted: #7c6f61;
-  --line: rgb(36 29 23 / 0.11);
-  --accent: #c2603f;
-  --glass: rgb(255 255 255 / 0.62);
-  --glass-border: rgb(36 29 23 / 0.08);
-  --glow-1: rgb(240 194 156 / 0.5);
-  --glow-2: rgb(190 212 200 / 0.55);
-  --cloth-shadow: rgb(70 40 15 / 0.22);
+  /* Nền trắng ngà, nền phụ be; nhấn hồng đất (đậm vừa đủ để chữ nhỏ vẫn đọc rõ) + xanh sage phụ */
+  --bg: #fdfbf7;
+  --surface: #f5ebe0;
+  --ink: #2a2220;
+  --muted: #7d6f69;
+  --line: rgb(42 34 32 / 0.11);
+  --accent: #b06b62;
+  --accent-soft: #e3b2a8;
+  --sage: #8fa98b;
+  --glass: rgb(255 255 255 / 0.66);
+  --glass-border: rgb(42 34 32 / 0.08);
+  --glow-1: rgb(227 178 168 / 0.42);
+  --glow-2: rgb(143 169 139 / 0.32);
+  --glow-3: rgb(245 235 224 / 0.95);
+  --cloth-shadow: rgb(80 45 35 / 0.2);
 
   --wood-hi: #ddb88e;
   --wood: #c79b6b;
@@ -39,14 +47,18 @@
 
 .dark {
   --bg: #14131a;
+  --surface: #1d1b23;
   --ink: #f1eadf;
   --muted: #a69c8f;
   --line: rgb(241 234 223 / 0.11);
-  --accent: #e5825f;
+  --accent: #e3a398;
+  --accent-soft: #8a5a53;
+  --sage: #a9c2a4;
   --glass: rgb(34 31 41 / 0.62);
   --glass-border: rgb(255 255 255 / 0.08);
-  --glow-1: rgb(150 88 58 / 0.24);
-  --glow-2: rgb(64 86 130 / 0.26);
+  --glow-1: rgb(160 96 88 / 0.24);
+  --glow-2: rgb(96 128 98 / 0.22);
+  --glow-3: rgb(29 27 35 / 0.9);
   --cloth-shadow: rgb(0 0 0 / 0.5);
 
   --wood-hi: #82593a;
@@ -96,6 +108,7 @@ textarea:focus-visible {
   background:
     radial-gradient(60vmax 50vmax at 6% 0%, var(--glow-1), transparent 62%),
     radial-gradient(55vmax 45vmax at 100% 100%, var(--glow-2), transparent 62%),
+    radial-gradient(70vmax 40vmax at 50% 108%, var(--glow-3), transparent 70%),
     var(--bg);
 
   &::after {

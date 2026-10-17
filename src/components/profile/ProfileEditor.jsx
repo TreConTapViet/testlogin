@@ -604,7 +604,7 @@ export default function ProfileEditor({ user, profile, loadFailed, onBack, onOpe
                   aria-keyshortcuts="P"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="flex h-11 cursor-pointer items-center gap-2 rounded-xl bg-accent px-4 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_rgba(194,96,63,0.8)] transition-opacity hover:opacity-90"
+                  className="flex h-11 cursor-pointer items-center gap-2 rounded-xl bg-accent px-4 text-sm font-semibold text-white shadow-[0_10px_24px_-10px_color-mix(in_oklab,var(--accent)_80%,transparent)] transition-opacity hover:opacity-90"
                 >
                   Đi phối đồ
                   <kbd className="rounded-md bg-white/20 px-1.5 py-0.5 font-sans text-[11px]">P</kbd>

@@ -198,7 +198,7 @@ export default function OutfitEntrance({ nickname, returning, onDone }) {
                   height: BOOTH.h - 18,
                   transformOrigin: '100% 50%',
                   background:
-                    'repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 6px, rgba(255,255,255,0.08) 6px 14px, rgba(0,0,0,0.04) 14px 22px), linear-gradient(180deg, #c2603f, #a44f33)',
+                    'repeating-linear-gradient(90deg, rgba(0,0,0,0.12) 0 6px, rgba(255,255,255,0.08) 6px 14px, rgba(0,0,0,0.04) 14px 22px), linear-gradient(180deg, #c9867a, #a8655c)',
                   willChange: 'transform',
                 }}
               />

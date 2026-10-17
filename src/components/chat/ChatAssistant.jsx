@@ -263,7 +263,7 @@ export default function ChatAssistant({ user }) {
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
         aria-label={open ? 'Đóng trợ lý phối đồ' : 'Mở trợ lý phối đồ AI'}
-        className="group pointer-events-auto absolute bottom-6 right-4 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-accent text-white shadow-[0_12px_30px_-8px_rgba(194,96,63,0.7)] md:right-6"
+        className="group pointer-events-auto absolute bottom-6 right-4 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-accent text-white shadow-[0_12px_30px_-8px_color-mix(in_oklab,var(--accent)_70%,transparent)] md:right-6"
         whileHover={{ scale: 1.06 }}
         whileTap={{ scale: 0.94 }}
       >

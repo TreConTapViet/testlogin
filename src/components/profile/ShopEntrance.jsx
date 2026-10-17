@@ -173,9 +173,9 @@ export default function ShopEntrance({ nickname, returning, onDone }) {
 
               {/* Mái hiên sọc với mép lượn sóng */}
               <svg viewBox="0 0 480 60" className="absolute" style={{ left: 140, top: 160, width: 480, height: 60 }}>
-                <rect x="0" y="0" width="480" height="8" rx="3" fill="#8e3f2b" />
+                <rect x="0" y="0" width="480" height="8" rx="3" fill="#8f544b" />
                 {Array.from({ length: 10 }, (_, index) => (
-                  <g key={index} fill={index % 2 === 0 ? '#c2603f' : '#f6efe4'}>
+                  <g key={index} fill={index % 2 === 0 ? '#c9867a' : '#fdfbf7'}>
                     <rect x={index * 48} y="6" width="48" height="34" />
                     <circle cx={index * 48 + 24} cy="40" r="24" />
                   </g>
@@ -188,7 +188,7 @@ export default function ShopEntrance({ nickname, returning, onDone }) {
               <Planter x={608} />
 
               {/* Thảm chào khách */}
-              <div className="absolute rounded-[50%] bg-[#c2603f]/25" style={{ left: 326, top: 438, width: 108, height: 16 }} />
+              <div className="absolute rounded-[50%] bg-[#c9867a]/25" style={{ left: 326, top: 438, width: 108, height: 16 }} />
 
               {/* Lòng cửa: ánh đèn ấm + nhân viên */}
               <div
@@ -222,7 +222,7 @@ export default function ShopEntrance({ nickname, returning, onDone }) {
                   {/* Biển "Mời vào" treo trên cửa */}
                   <div className="absolute left-1/2 top-6 -translate-x-1/2 text-center">
                     <div className="mx-auto h-4 w-10 border-x border-t border-[#7a5233]/60" />
-                    <div className="rounded-md bg-[#fff7ea] px-2 py-1 text-[11px] font-semibold text-[#c2603f] shadow">
+                    <div className="rounded-md bg-[#fff7ea] px-2 py-1 text-[11px] font-semibold text-[#b06b62] shadow">
                       Mời vào
                     </div>
                   </div>
